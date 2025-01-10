@@ -17,7 +17,7 @@ export default function configureApiDocs(app: AppOpenAPI) {
   })
 
   app.get(
-    '/reference',
+    '/',
     apiReference({
       theme: 'purple',
       layout: 'classic',
@@ -28,6 +28,7 @@ export default function configureApiDocs(app: AppOpenAPI) {
       spec: {
         url: '/docs',
       },
+      showSidebar: true
     }),
   )
 }
