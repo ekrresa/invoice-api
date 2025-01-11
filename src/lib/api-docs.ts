@@ -1,6 +1,6 @@
 import { apiReference } from '@scalar/hono-api-reference'
 import type { AppOpenAPI } from './types.js'
-import packageJson from '~/package.json' with { type: 'json' }
+import packageJson from '../../package.json' with { type: 'json' }
 
 export default function configureApiDocs(app: AppOpenAPI) {
   app.doc('/docs', {
