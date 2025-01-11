@@ -4,7 +4,7 @@ import pretty from 'pino-pretty'
 
 import { env } from '@/lib/env.js'
 
-export function appLogger() {
+export default function appLogger() {
   return pinoLogger({
     pino: pino(
       {
