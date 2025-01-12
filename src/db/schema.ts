@@ -42,7 +42,7 @@ export const apiKeys = t.sqliteTable('api_keys', {
     .references(() => users.id, { onDelete: 'cascade', onUpdate: 'cascade' })
     .unique(),
   isActive: t
-    .text({ enum: ['active', 'inactive'] })
+    .text('is_active', { enum: ['active', 'inactive'] })
     .notNull()
     .default('active'),
   ...timestamps,
