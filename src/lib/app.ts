@@ -1,8 +1,5 @@
 import { OpenAPIHono } from '@hono/zod-openapi'
 
-import serveEmojiFavicon from '@/middleware/favicon.js'
-import appLogger from '@/middleware/logger.js'
-import { errorHandler } from './error.js'
 import type { AppBindings } from './types.js'
 
 export function createRouter() {
@@ -12,7 +9,7 @@ export function createRouter() {
       if (!result.success) {
         return c.json(
           {
-            message: result.error.message,
+            message: 'Bad request',
             errors: result.error.flatten().fieldErrors,
           },
           400,
@@ -22,17 +19,17 @@ export function createRouter() {
   })
 }
 
-export default function createApp() {
-  const app = createRouter()
+// export default function createApp() {
+//   const app = createRouter()
 
-  app.use(serveEmojiFavicon('🤑'))
-  app.use(appLogger())
+//   app.use(serveEmojiFavicon('🤑'))
+//   app.use(requestLogger())
 
-  app.notFound(c => {
-    return c.json({ message: `${c.req.path} - Route not found` }, 404)
-  })
+//   app.notFound(c => {
+//     return c.json({ message: `${c.req.path} - Route not found` }, 404)
+//   })
 
-  app.onError(errorHandler)
+//   app.onError(errorHandler)
 
-  return app
-}
+//   return app
+// }

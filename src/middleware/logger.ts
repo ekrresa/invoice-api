@@ -4,16 +4,15 @@ import pretty from 'pino-pretty'
 
 import env from 'env.js'
 
-export default function appLogger() {
+export const logger = pino(
+  {
+    level: env.LOG_LEVEL || 'info',
+  },
+  env.NODE_ENV === 'production' ? undefined : pretty({ colorize: true }),
+)
+
+export default function requestLogger() {
   return pinoLogger({
-    pino: pino(
-      {
-        level: env.LOG_LEVEL || 'info',
-      },
-      env.NODE_ENV === 'production' ? undefined : pretty(),
-    ),
-    http: {
-      reqId: () => crypto.randomUUID(),
-    },
+    pino: logger,
   })
 }
