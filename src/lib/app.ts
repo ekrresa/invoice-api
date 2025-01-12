@@ -1,9 +1,9 @@
 import { OpenAPIHono } from '@hono/zod-openapi'
-import type { AppBindings } from './types.js'
 
-import { errorHandler } from './error.js'
-import appLogger from '@/middleware/logger.js'
 import serveEmojiFavicon from '@/middleware/favicon.js'
+import appLogger from '@/middleware/logger.js'
+import { errorHandler } from './error.js'
+import type { AppBindings } from './types.js'
 
 export function createRouter() {
   return new OpenAPIHono<AppBindings>({
