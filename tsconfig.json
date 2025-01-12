@@ -16,16 +16,17 @@
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "outDir": "dist",
-    "rootDir": "src",
+    "rootDir": ".",
     "sourceMap": true,
     "types": ["node"],
     "jsx": "react-jsx",
     "jsxImportSource": "hono/jsx",
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["src/*"],
+      "@/env": ["env"]
     }
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx"],
+  "include": ["src/**/*.ts", "src/**/*.tsx", "env.ts"],
   "exclude": ["node_modules"]
 }

@@ -10,7 +10,9 @@ const EnvSchema = z
     LOG_LEVEL: z
       .enum(['fatal', 'error', 'warn', 'info', 'debug', 'trace', 'silent'])
       .default('info'),
-    DATABASE_URL: z.string().url(),
+    DATABASE_URL: z
+      .string({ required_error: 'DATABASE_URL is required' })
+      .url({ message: 'Invalid DATABASE_URL' }),
     DATABASE_AUTH_TOKEN: z.string().optional(),
   })
   .refine(

@@ -1,6 +1,5 @@
 import { apiReference } from '@scalar/hono-api-reference'
 
-import packageJson from '../../package.json' with { type: 'json' }
 import type { AppOpenAPI } from './types.js'
 
 export default function configureApiDocs(app: AppOpenAPI) {
@@ -8,7 +7,7 @@ export default function configureApiDocs(app: AppOpenAPI) {
     openapi: '3.0.0',
     info: {
       title: 'Invoice API',
-      version: packageJson.version,
+      version: '1.0.0',
       description: 'API for invoice management',
       license: {
         name: 'MIT',
