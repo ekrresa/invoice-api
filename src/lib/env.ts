@@ -1,21 +1,40 @@
-import { createEnv } from '@t3-oss/env-core'
-import { z, ZodError } from 'zod'
+import { z } from 'zod'
 import dotenv from '@dotenvx/dotenvx'
 
 dotenv.config()
 
-export const env = createEnv({
-  server: {
+const EnvSchema = z
+  .object({
     NODE_ENV: z.string().default('development'),
     PORT: z.coerce.number().default(5432),
-    LOG_LEVEL: z.enum(['fatal', 'error', 'warn', 'info', 'debug', 'trace', 'silent']),
-    // DATABASE_URL: z.string().url(),
-    // DATABASE_AUTH_TOKEN: z.string().optional(),
-  },
-  runtimeEnv: process.env,
-  emptyStringAsUndefined: true,
-  onValidationError: (error: ZodError) => {
-    console.error('❌ Invalid environment variables:', error.flatten().fieldErrors)
-    throw new Error('Invalid environment variables')
-  },
-})
+    LOG_LEVEL: z
+      .enum(['fatal', 'error', 'warn', 'info', 'debug', 'trace', 'silent'])
+      .default('info'),
+    DATABASE_URL: z.string().url(),
+    DATABASE_AUTH_TOKEN: z.string().optional(),
+  })
+  .refine(
+    env => {
+      if (env.NODE_ENV === 'production' && !env.DATABASE_AUTH_TOKEN) {
+        return false
+      }
+
+      return true
+    },
+    {
+      message: 'DATABASE_AUTH_TOKEN is required in production',
+      path: ['DATABASE_AUTH_TOKEN'],
+    },
+  )
+
+const result = EnvSchema.safeParse(process.env)
+
+if (!result.success) {
+  console.error('❌ Invalid env:')
+  console.error(JSON.stringify(result.error.flatten().fieldErrors, null, 2))
+  process.exit(1)
+}
+
+const env = result.data
+
+export default env

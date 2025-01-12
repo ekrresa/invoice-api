@@ -1,7 +1,7 @@
 import type { ErrorHandler } from 'hono'
-import { env } from './env.js'
 import { ZodError } from 'zod'
 import type { ContentfulStatusCode } from 'hono/utils/http-status'
+import env from './env.js'
 
 export const errorHandler: ErrorHandler = (error, c) => {
   let statusCode: ContentfulStatusCode = 500
