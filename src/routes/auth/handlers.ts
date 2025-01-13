@@ -28,7 +28,7 @@ export const registerUserHandler: AppRouteHandler<RegisterRoute> = async c => {
 
   const verificationToken = generateRandomNumber()
 
-  const HOURS_UNTIL_TOKEN_EXPIRES = 12
+  const HOURS_UNTIL_TOKEN_EXPIRES = 6
 
   await verificationTokensRepo.save({
     userId: savedUser.id,
