@@ -14,5 +14,13 @@
     "^[.]"
   ],
   "importOrderTypeScriptVersion": "5.7.2",
-  "importOrderCaseSensitive": false
+  "importOrderCaseSensitive": false,
+  "overrides": [
+    {
+      "files": "src/emails/**/*.*",
+      "options": {
+        "importOrder": ["^react$", "<THIRD_PARTY_MODULES>", "^[.]"]
+      }
+    }
+  ]
 }

@@ -30,6 +30,17 @@ export const users = t.sqliteTable('users', {
   ...timestamps,
 })
 
+export const verificationTokens = t.sqliteTable('verification_tokens', {
+  id: t.integer({ mode: 'number' }).primaryKey({ autoIncrement: true }),
+  token: t.text('token').notNull(),
+  email: t
+    .text('email')
+    .notNull()
+    .references(() => users.email, { onDelete: 'cascade', onUpdate: 'cascade' }),
+  expiresAt: t.text('expires_at').notNull(),
+  createdAt: timestamps.createdAt,
+})
+
 export const apiKeys = t.sqliteTable('api_keys', {
   id: t
     .text()
@@ -47,15 +58,4 @@ export const apiKeys = t.sqliteTable('api_keys', {
     .default('active'),
   ...timestamps,
   expiresAt: t.text('expires_at').notNull(),
-})
-
-export const verificationTokens = t.sqliteTable('verification_tokens', {
-  id: t.integer({ mode: 'number' }).primaryKey({ autoIncrement: true }),
-  token: t.text('token').notNull().unique(),
-  userId: t
-    .text('user_id')
-    .notNull()
-    .references(() => users.id, { onDelete: 'cascade', onUpdate: 'cascade' }),
-  expiresAt: t.text('expires_at').notNull(),
-  createdAt: timestamps.createdAt,
 })

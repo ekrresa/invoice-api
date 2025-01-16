@@ -22,11 +22,11 @@ export const CreateUserSchema = createInsertSchema(users, {
 })
 
 export const CreateVerificationTokenSchema = createInsertSchema(verificationTokens, {
-  userId: schema => schema.ulid(),
+  email: schema => schema.email(),
   token: schema => schema.min(6),
   expiresAt: schema => schema.date(),
 }).pick({
-  userId: true,
+  email: true,
   expiresAt: true,
   token: true,
 })
