@@ -4,6 +4,7 @@ import { HTTPException } from 'hono/http-exception'
 
 import db from '@/db/index.js'
 import { users } from '@/db/schema.js'
+import { CreateUserSchema } from '@/db/types.js'
 import type { AppBindings } from '@/lib/types.js'
 
 type NewUser = typeof users.$inferInsert
@@ -20,6 +21,8 @@ export default class UserRepo {
   }
 
   async save(user: NewUser) {
+    await CreateUserSchema.parseAsync(user)
+
     const [result] = await db.insert(users).values(user).returning()
 
     if (!result) {

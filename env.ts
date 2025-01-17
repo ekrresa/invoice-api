@@ -15,7 +15,7 @@ const EnvSchema = z
       .url({ message: 'Invalid DATABASE_URL' }),
     DATABASE_AUTH_TOKEN: z.string().optional(),
     EMAIL_HOST: z.string().min(1),
-    EMAIL_PORT: z.coerce.number().default(587),
+    EMAIL_PORT: z.coerce.number().default(465),
     EMAIL_USERNAME: z.string().min(1),
     EMAIL_PASSWORD: z.string().min(1),
   })

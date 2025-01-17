@@ -2,7 +2,7 @@ import type { Context } from 'hono'
 
 import db from '@/db/index.js'
 import { verificationTokens } from '@/db/schema.js'
-import type { CreateVerificationToken } from '@/db/types.js'
+import { CreateVerificationTokenSchema, type CreateVerificationToken } from '@/db/types.js'
 import type { AppBindings } from '@/lib/types.js'
 
 export default class VerificationTokensRepo {
@@ -13,6 +13,8 @@ export default class VerificationTokensRepo {
   }
 
   async save(input: CreateVerificationToken) {
-    await db.insert(verificationTokens).values(input)
+    await CreateVerificationTokenSchema.parseAsync(input)
+
+    return db.insert(verificationTokens).values(input)
   }
 }

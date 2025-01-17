@@ -23,6 +23,7 @@ export const errorHandler: ErrorHandler = (error, c: Context<AppBindings>) => {
 
   if (statusCode >= 500) {
     c.var.logger.error({ requestId: c.var.requestId, error }, 'Internal server error')
+    errorMessage = 'Internal server error'
   }
 
   return c.json(
