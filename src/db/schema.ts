@@ -3,9 +3,13 @@ import * as t from 'drizzle-orm/sqlite-core'
 import { ulid } from 'ulidx'
 
 const timestamps = {
-  createdAt: t.text('created_at').$defaultFn(() => sql`(CURRENT_TIMESTAMP)`),
+  createdAt: t
+    .text('created_at')
+    .notNull()
+    .$defaultFn(() => sql`(CURRENT_TIMESTAMP)`),
   updatedAt: t
     .text('updated_at')
+    .notNull()
     .$defaultFn(() => sql`(CURRENT_TIMESTAMP)`)
     .$onUpdateFn(() => sql`(CURRENT_TIMESTAMP)`),
 }

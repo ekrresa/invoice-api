@@ -13,7 +13,8 @@
     "db:local": "turso dev --db-file .sqlocal/local.db --port 5683",
     "db:push": "drizzle-kit push",
     "db:generate": "drizzle-kit generate",
-    "db:migrate": "drizzle-kit migrate"
+    "db:migrate": "drizzle-kit migrate",
+    "prepare": "husky || true"
   },
   "engines": {
     "node": "^22.12.0"
@@ -49,6 +50,7 @@
     "drizzle-kit": "0.30.1",
     "eslint": "9.17.0",
     "globals": "15.14.0",
+    "husky": "9.1.7",
     "prettier": "3.4.2",
     "react-email": "3.0.6",
     "tsc-alias": "1.8.10",

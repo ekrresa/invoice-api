@@ -26,7 +26,7 @@ export async function sendVerificationEmail(args: SendVerificationEmailArgs) {
 
   return transporter.sendMail({
     html: verifyEmailHtml,
-    from: '"Invoice API" <invoice-api@invoice.ekrresa.com>',
+    from: '"Invoice API" <invoice.ekrresa.com>',
     to: args.email,
     subject: 'Email Verification',
   })
