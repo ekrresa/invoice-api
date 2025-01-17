@@ -4,7 +4,7 @@ import { HTTPException } from 'hono/http-exception'
 
 import db from '@/db/index.js'
 import { users } from '@/db/schema.js'
-import { CreateUserSchema } from '@/db/types.js'
+import { CreateUserSchema, UpdateUserSchema, type UpdateUserInput } from '@/db/types.js'
 import type { AppBindings } from '@/lib/types.js'
 
 type NewUser = typeof users.$inferInsert
@@ -16,8 +16,18 @@ export default class UserRepo {
     this.ctx = ctx
   }
 
-  async exists(email: string) {
-    return (await db.$count(users, t.eq(users.email, email))) > 0
+  async update(id: string, user: UpdateUserInput) {
+    const parsedUser = await UpdateUserSchema.parseAsync(user)
+
+    const result = await db.update(users).set(parsedUser).where(t.eq(users.id, id))
+
+    return result.rowsAffected > 0
+  }
+
+  async getUserByEmail(email: string) {
+    const [result] = await db.select().from(users).where(t.eq(users.email, email))
+
+    return result
   }
 
   async save(user: NewUser) {
