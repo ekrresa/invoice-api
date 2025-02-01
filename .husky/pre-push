@@ -1,3 +1,2 @@
 pnpm format
 pnpm typecheck
-pnpm db:generate
