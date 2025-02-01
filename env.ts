@@ -14,10 +14,10 @@ const EnvSchema = z
       .string({ required_error: 'DATABASE_URL is required' })
       .url({ message: 'Invalid DATABASE_URL' }),
     DATABASE_AUTH_TOKEN: z.string().optional(),
-    EMAIL_HOST: z.string().min(1),
+    EMAIL_HOST: z.string().optional(),
     EMAIL_PORT: z.coerce.number().default(465),
-    EMAIL_USERNAME: z.string().min(1),
-    EMAIL_PASSWORD: z.string().min(1),
+    EMAIL_USERNAME: z.string().optional(),
+    EMAIL_PASSWORD: z.string().optional(),
   })
   .refine(
     env => {
@@ -31,6 +31,18 @@ const EnvSchema = z
       message: 'DATABASE_AUTH_TOKEN is required in production',
       path: ['DATABASE_AUTH_TOKEN'],
     },
+  )
+  .refine(
+    env => {
+      const { EMAIL_HOST, EMAIL_USERNAME, EMAIL_PASSWORD } = env
+
+      if (env.NODE_ENV === 'CI' && (!EMAIL_HOST || !EMAIL_USERNAME || !EMAIL_PASSWORD)) {
+        return true
+      }
+
+      return [EMAIL_HOST, EMAIL_USERNAME, EMAIL_PASSWORD].every(Boolean)
+    },
+    { message: 'Please provide all required env variables' },
   )
 
 const result = EnvSchema.safeParse(process.env)

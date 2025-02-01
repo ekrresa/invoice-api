@@ -12,6 +12,7 @@ concurrency:
 env:
   DATABASE_URL: ${{ secrets.DATABASE_URL }}
   DATABASE_AUTH_TOKEN: ${{ secrets.DATABASE_AUTH_TOKEN }}
+  NODE_ENV: CI
 
 jobs:
   build:
