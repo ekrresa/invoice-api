@@ -3,5 +3,24 @@
   "semi": false,
   "singleQuote": true,
   "trailingComma": "all",
-  "printWidth": 95
+  "printWidth": 95,
+  "plugins": ["@ianvs/prettier-plugin-sort-imports"],
+  "importOrder": [
+    "<BUILTIN_MODULES>",
+    "<THIRD_PARTY_MODULES>",
+    "",
+    "^@/(.*)$",
+    "env.js",
+    "^[.]"
+  ],
+  "importOrderTypeScriptVersion": "5.7.2",
+  "importOrderCaseSensitive": false,
+  "overrides": [
+    {
+      "files": "src/emails/**/*.*",
+      "options": {
+        "importOrder": ["^react$", "<THIRD_PARTY_MODULES>", "^[.]"]
+      }
+    }
+  ]
 }

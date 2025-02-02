@@ -1,41 +1,37 @@
-import type { ErrorHandler } from 'hono'
-import { env } from './env.js'
-import { ZodError } from 'zod'
+import type { Context, ErrorHandler } from 'hono'
+import { HTTPException } from 'hono/http-exception'
 import type { ContentfulStatusCode } from 'hono/utils/http-status'
+import { ZodError } from 'zod'
 
-export const errorHandler: ErrorHandler = (error, c) => {
-  let statusCode: ContentfulStatusCode = 500
+import env from 'env.js'
+import type { AppBindings } from './types.js'
+
+export const errorHandler: ErrorHandler = (error, c: Context<AppBindings>) => {
   let errors = undefined
+  let errorMessage = error.message
+  let statusCode: ContentfulStatusCode = 500
 
   if (error instanceof ZodError) {
+    errorMessage = 'Bad request'
+    errors = error.flatten().fieldErrors
     statusCode = 400
-    const errorMap = error.flatten()
-    errors = errorMap.fieldErrors
   }
 
-  if (error instanceof HttpError) {
-    statusCode = error.statusCode
+  if (error instanceof HTTPException) {
+    statusCode = error.status
+  }
+
+  if (statusCode >= 500) {
+    c.var.logger.error({ requestId: c.var.requestId, error }, 'Internal server error')
+    errorMessage = 'Internal server error'
   }
 
   return c.json(
     {
-      message: error.message,
+      message: errorMessage,
       errors,
       stack: env.NODE_ENV === 'production' ? undefined : error.stack,
     },
     statusCode,
   )
-}
-
-export class HttpError extends Error {
-  statusCode: ContentfulStatusCode
-
-  constructor(statusCode: ContentfulStatusCode, message: string) {
-    super(message)
-    Error.captureStackTrace(this, this.constructor)
-
-    this.name = 'HttpError'
-    this.message = message
-    this.statusCode = statusCode
-  }
 }
