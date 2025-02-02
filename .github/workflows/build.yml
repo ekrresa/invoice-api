@@ -60,7 +60,6 @@ jobs:
 
   migration:
     needs: build
-    if: ${{ needs.build.outputs.run_migration == 'true' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
